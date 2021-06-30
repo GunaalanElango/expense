@@ -8,8 +8,11 @@ import {
 } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { View, SafeAreaView, Image, Text } from "react-native";
+import { IconButton } from "react-native-paper";
 
 import HomeScreen from "../src/screens/HomeScreen";
+import AddIncomeScreen from "../src/screens/AddIncomeScreen";
 import Colors from "../colors/colors";
 
 const Stack = createStackNavigator();
@@ -19,6 +22,7 @@ const Tab = createBottomTabNavigator();
 const defaultScreenOptions = {
   headerStyle: {
     backgroundColor: Colors.primary,
+    height: 80,
   },
   headerTintColor: "#fff",
   headerTitleStyle: {
@@ -26,14 +30,36 @@ const defaultScreenOptions = {
   },
 };
 
-const HomeStackScreen = () => {
+const HomeStackScreen = (props) => {
   return (
     <Stack.Navigator screenOptions={defaultScreenOptions}>
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ title: "Welcome Gunaalan!" }}
+        options={{
+          headerTitle: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <IconButton
+                icon="menu"
+                color="#fff"
+                size={25}
+                onPress={() => props.navigation.toggleDrawer()}
+              />
+              <Text style={{ fontSize: 18, color: "#fff" }}>
+                Welcome Gunaalan !
+              </Text>
+            </View>
+          ),
+        }}
       />
+    </Stack.Navigator>
+  );
+};
+
+const AddIncomeStackScreen = (props) => {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="AddIncomeScreen" component={AddIncomeScreen} />
     </Stack.Navigator>
   );
 };
@@ -66,36 +92,37 @@ const HomeTabNavigator = () => {
   );
 };
 
-const MainStackNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={defaultScreenOptions}>
-      <Stack.Screen
-        name="HomeTab"
-        component={HomeTabNavigator}
-        options={{ title: "Welcome Gunaalan!", headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
-
 const CustomDrawerComponent = (props) => {
   return (
-    <DrawerContentScrollView
-      {...props}
-      contentContainerStyle={{
-        flex: 1,
-        justifyContent: "space-between",
-      }}
-    >
-      <DrawerItemList {...props} />
+    <View style={{ flex: 1 }}>
+      <DrawerContentScrollView {...props}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            marginTop: 10,
+            borderBottomColor: "rgba(0,0,0,0.1)",
+            borderBottomWidth: 2,
+            paddingBottom: 15,
+            marginHorizontal: 5,
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            Welcome Gunaalan!
+          </Text>
+          <Image
+            source={require("../assets/asset-management.png")}
+            style={{ width: 60, height: 60 }}
+          />
+        </View>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
       <DrawerItem
         label="Logout"
         inactiveTintColor="#000"
         inactiveBackgroundColor="rgba(0,0,0,0.05)"
-        activeTintColor={Colors.primary}
-        activeBackgroundColor="#fff"
-        pressColor="#fff"
-        focused={false}
+        pressColor={Colors.primary}
         labelStyle={{
           fontSize: 15,
           fontWeight: "bold",
@@ -108,7 +135,7 @@ const CustomDrawerComponent = (props) => {
           />
         )}
       />
-    </DrawerContentScrollView>
+    </View>
   );
 };
 
@@ -126,17 +153,33 @@ const MainDrawerNavigator = () => {
           fontWeight: "bold",
         },
       }}
+      screenOptions={{
+        swipeEnabled: false,
+      }}
     >
       <Drawer.Screen
-        name="Home"
-        component={MainStackNavigator}
+        name="HomeTab"
+        component={HomeTabNavigator}
         options={{
           drawerIcon: (props) => {
             return (
+              <Ionicons name="ios-home-outline" size={25} color={props.color} />
+            );
+          },
+          drawerLabel: "Home",
+        }}
+      />
+      <Drawer.Screen
+        name="AddIncomeStackScreen"
+        component={AddIncomeStackScreen}
+        options={{
+          drawerLabel: "Add Income",
+          drawerIcon: (props) => {
+            return (
               <Ionicons
-                name="ios-home-outline"
+                name="md-add-circle-outline"
                 size={25}
-                color={Colors.primary}
+                color={props.color}
               />
             );
           },

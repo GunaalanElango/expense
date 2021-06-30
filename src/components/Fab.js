@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import Colors from "../../colors/colors";
 
 const Fab = (props) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(props.open);
   return (
     <FAB.Group
       style={Styles.fab}
