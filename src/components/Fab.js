@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import Colors from "../../colors/colors";
 
 const Fab = (props) => {
-  const [open, setOpen] = useState(props.open);
+  const [open, setOpen] = useState(false);
   return (
     <FAB.Group
       style={Styles.fab}
@@ -36,7 +36,7 @@ const Styles = StyleSheet.create({
   fab: {
     position: "absolute",
     right: 0,
-    bottom: 50,
+    bottom: 55,
   },
 });
 
