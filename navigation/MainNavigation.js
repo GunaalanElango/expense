@@ -13,6 +13,8 @@ import { Text } from "react-native-paper";
 
 import HomeScreen from "../src/screens/HomeScreen";
 import AddIncomeScreen from "../src/screens/AddIncomeScreen";
+import AuthScreen from "../src/screens/auth/AuthScreen";
+import StartupScreen from "../src/screens/StartupScreen";
 import Colors from "../colors/colors";
 
 const Stack = createStackNavigator();
@@ -157,6 +159,21 @@ const MainDrawerNavigator = () => {
         }}
       />
     </Drawer.Navigator>
+  );
+};
+
+export const StartupNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="StartupScreen"
+        component={StartupScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="AuthScreen" component={AuthScreen} />
+    </Stack.Navigator>
   );
 };
 

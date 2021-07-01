@@ -20,6 +20,7 @@ const Theme = {
     ...DefaultTheme.colors,
     primary: Colors.primary,
     accent: Colors.secondary,
+    error: "red",
   },
 };
 

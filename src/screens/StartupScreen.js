@@ -19,6 +19,7 @@ const StartupScreen = (props) => {
           mode="contained"
           style={Styles.button}
           labelStyle={Styles.buttonLabel}
+          onPress={() => {}}
         >
           how it works
         </Button>
@@ -26,6 +27,11 @@ const StartupScreen = (props) => {
           color="#fff"
           uppercase={false}
           labelStyle={{ fontWeight: "bold", fontSize: 15 }}
+          onPress={() =>
+            props.navigation.navigate("AuthScreen", {
+              login: false,
+            })
+          }
         >
           Create a account
         </Button>
@@ -34,7 +40,11 @@ const StartupScreen = (props) => {
           mode="contained"
           style={Styles.button}
           labelStyle={Styles.buttonLabel}
-          onPress={() => {}}
+          onPress={() =>
+            props.navigation.navigate("AuthScreen", {
+              login: true,
+            })
+          }
         >
           login
         </Button>
