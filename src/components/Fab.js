@@ -27,6 +27,7 @@ const Fab = (props) => {
         },
       ]}
       onStateChange={({ open }) => setOpen(open)}
+      visible={props.visible}
     />
   );
 };

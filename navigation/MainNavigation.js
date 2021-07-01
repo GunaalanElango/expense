@@ -22,7 +22,7 @@ const Tab = createBottomTabNavigator();
 const defaultScreenOptions = {
   headerStyle: {
     backgroundColor: Colors.primary,
-    height: 80,
+    height: 70,
   },
   headerTintColor: "#fff",
   headerTitleStyle: {
@@ -99,17 +99,17 @@ const CustomDrawerComponent = (props) => {
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "space-around",
+            justifyContent: "space-between",
             alignItems: "center",
             marginTop: 10,
             borderBottomColor: "rgba(0,0,0,0.1)",
             borderBottomWidth: 2,
             paddingBottom: 15,
-            marginHorizontal: 5,
+            marginHorizontal: 10,
           }}
         >
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-            Welcome Gunaalan!
+          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Welcome Gunaalan !
           </Text>
           <Image
             source={require("../assets/asset-management.png")}
