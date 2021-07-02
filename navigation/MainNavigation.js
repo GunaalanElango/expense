@@ -10,7 +10,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { View, Image } from "react-native";
 import { Text } from "react-native-paper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../store/actions/auth";
 
 import HomeScreen from "../src/screens/HomeScreen";
@@ -57,6 +57,7 @@ const HomeTabNavigator = () => {
 };
 
 const CustomDrawerComponent = (props) => {
+  const authenticatedUser = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   return (
@@ -75,7 +76,7 @@ const CustomDrawerComponent = (props) => {
           }}
         >
           <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-            Welcome Gunaalan !
+            Welcome {authenticatedUser.name} !
           </Text>
           <Image
             source={require("../assets/asset-management.png")}
@@ -107,6 +108,8 @@ const CustomDrawerComponent = (props) => {
 };
 
 const MainDrawerNavigator = () => {
+  const authenticatedUser = useSelector((state) => state.auth.user);
+
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerComponent {...props} />}
@@ -137,7 +140,7 @@ const MainDrawerNavigator = () => {
         name="HomeScreen"
         component={HomeTabNavigator}
         options={{
-          title: "Welcome Gunaalan !",
+          title: `Welcome ${authenticatedUser.name} !`,
           drawerIcon: (props) => {
             return (
               <Ionicons name="ios-home-outline" size={25} color={props.color} />
