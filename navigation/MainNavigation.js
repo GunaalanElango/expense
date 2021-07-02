@@ -10,6 +10,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { View, Image } from "react-native";
 import { Text } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import * as authActions from "../store/actions/auth";
 
 import HomeScreen from "../src/screens/HomeScreen";
 import AddIncomeScreen from "../src/screens/AddIncomeScreen";
@@ -55,6 +57,8 @@ const HomeTabNavigator = () => {
 };
 
 const CustomDrawerComponent = (props) => {
+  const dispatch = useDispatch();
+
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -89,6 +93,7 @@ const CustomDrawerComponent = (props) => {
           fontSize: 15,
           fontWeight: "bold",
         }}
+        onPress={() => dispatch(authActions.logout())}
         icon={(props) => (
           <Ionicons
             name="log-out-outline"

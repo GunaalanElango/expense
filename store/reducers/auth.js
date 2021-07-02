@@ -1,10 +1,27 @@
+import { LOGIN, LOGOUT } from "../actions/auth";
+
 const initialState = {
-  user: {},
+  user: null,
   isAuthenticated: false,
 };
 
 const reducer = (state = initialState, action) => {
-  return state;
+  switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        user: action.user,
+        isAuthenticated: true,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+      };
+    default:
+      return state;
+  }
 };
 
 export default reducer;
