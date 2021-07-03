@@ -66,11 +66,6 @@ const AuthScreen = (props) => {
 
   useEffect(() => {
     props.navigation.setOptions({
-      headerStyle: {
-        backgroundColor: Colors.primary,
-      },
-      headerTintColor: "#fff",
-      headerTitleAlign: "center",
       title: isLoginScreen ? "Login" : "Register",
     });
   });

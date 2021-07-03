@@ -18,6 +18,7 @@ import AddIncomeScreen from "../src/screens/AddIncomeScreen";
 import AuthScreen from "../src/screens/auth/AuthScreen";
 import StartupScreen from "../src/screens/StartupScreen";
 import Colors from "../colors/colors";
+import OTPScreen from "../src/screens/auth/OTPScreen";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -172,7 +173,15 @@ const MainDrawerNavigator = () => {
 
 export const StartupNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Colors.primary,
+        },
+        headerTintColor: "#fff",
+        headerTitleAlign: "center",
+      }}
+    >
       <Stack.Screen
         name="StartupScreen"
         component={StartupScreen}
@@ -181,6 +190,18 @@ export const StartupNavigator = () => {
         }}
       />
       <Stack.Screen name="AuthScreen" component={AuthScreen} />
+      <Stack.Screen
+        name="OTPScreen"
+        component={OTPScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: "#fff",
+            elevation: 0,
+          },
+          headerTintColor: "#000",
+          title: "",
+        }}
+      />
     </Stack.Navigator>
   );
 };
