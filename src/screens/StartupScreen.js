@@ -19,7 +19,7 @@ const StartupScreen = (props) => {
           mode="contained"
           style={Styles.button}
           labelStyle={Styles.buttonLabel}
-          onPress={() => props.navigation.navigate("OTPScreen")}
+          onPress={() => {}}
         >
           how it works
         </Button>

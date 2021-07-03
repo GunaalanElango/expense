@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import { TextInput, Button, HelperText } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
-import Colors from "../../../colors/colors";
+// import Colors from "../../../colors/colors";
 import * as authActions from "../../../store/actions/auth";
 
 let MobileNumberRegex = /^\d{10}$/;
@@ -28,9 +28,13 @@ const AuthScreen = (props) => {
 
   const [nameError, setNameError] = useState(false);
   const [mobileNumberError, setMobileNumberError] = useState(false);
-  const [disableBtn, setDisableBtn] = useState("inital");
+  // const [disableBtn, setDisableBtn] = useState("inital");
 
-  const onRegisterHandler = () => {};
+  const onRegisterHandler = () => {
+    props.navigation.navigate("OTPScreen", {
+      mobileNumber,
+    });
+  };
 
   const onLoginHandler = () => {
     if (!checkMobileNumberValidity(mobileNumber)) {
@@ -50,7 +54,8 @@ const AuthScreen = (props) => {
   const onValueChangeHandler = (field, enteredValue) => {
     switch (field) {
       case "name":
-        setName(enteredValue.trim());
+        setNameError(!checkNameValidity(enteredValue));
+        setName(enteredValue);
         break;
       case "mobileNumber":
         setMobileNumberError(!checkMobileNumberValidity(enteredValue));
@@ -92,7 +97,7 @@ const AuthScreen = (props) => {
               type="error"
               visible={nameError}
             >
-              Name should contain only letters and space
+              Name should contain only alphabets
             </HelperText>
           </View>
         )}

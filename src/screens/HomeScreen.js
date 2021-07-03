@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { IconButton, Colors, Portal } from "react-native-paper";
+import { Portal } from "react-native-paper";
 import { useIsDrawerOpen } from "@react-navigation/drawer";
 import { useIsFocused } from "@react-navigation/native";
 
