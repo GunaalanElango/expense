@@ -34,22 +34,26 @@ const Input = (props) => {
   });
 
   const onValueChangeHandler = (value) => {
-    let mobileNumberRegex = /^\d{10}$/;
+    let mobileNumberRegex = /^[6789]\d{9}$/;
     let nameRegex = /^[a-zA-Z ]+$/;
     let isValid = true;
     let error = "";
+
     if (props.required && value.trim().length <= 0) {
       isValid = false;
       error = props.errorText.required;
     }
+
     if (props.mobileNumber && !mobileNumberRegex.test(value)) {
       isValid = false;
       error = props.errorText.mobileNumberInvalid;
     }
+
     if (props.name && !nameRegex.test(value)) {
       isValid = false;
       error = props.errorText.nameInvalid;
     }
+
     dispatch({ type: INPUT_VALUE_CHANGE, value, isValid, error });
   };
 
@@ -87,11 +91,12 @@ const Styles = StyleSheet.create({
   },
   label: {
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 16,
     paddingBottom: 5,
+    color: "rgba(0,0,0,0.7)"
   },
   input: {
-    borderColor: "#000",
+    borderColor: "rgba(0,0,0,0.5)",
     borderRadius: 10,
     borderWidth: 1.5,
     paddingHorizontal: 10,

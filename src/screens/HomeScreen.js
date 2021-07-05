@@ -11,7 +11,10 @@ const HomeScreen = (props) => {
   const isScreenFocused = useIsFocused();
   let FAB = isDrawerOpen ? null : (
     <Portal>
-      <Fab visible={isScreenFocused} />
+      <Fab
+        visible={isScreenFocused}
+        addIncome={() => props.navigation.navigate("AddIncomeScreen")}
+      />
     </Portal>
   );
 

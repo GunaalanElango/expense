@@ -59,21 +59,21 @@ const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const isLoginScreen = props.route.params.login;
 
-  const onRegisterHandler = () => {
-    props.navigation.navigate("OTPScreen", {
-      mobileNumber,
-    });
-  };
-
-  const onLoginHandler = () => {
-    dispatch(
-      authActions.login({
-        id: Date.now(),
-        name: formState.inputValues.name,
+  const onSubmitHandler = () => {
+    if (isLoginScreen) {
+      dispatch(
+        authActions.login({
+          id: Date.now(),
+          name: formState.inputValues.name,
+          mobileNumber: formState.inputValues.mobileNumber,
+          password: formState.inputValues.password,
+        })
+      );
+    } else {
+      props.navigation.navigate("OTPScreen", {
         mobileNumber: formState.inputValues.mobileNumber,
-        password: formState.inputValues.password,
-      })
-    );
+      });
+    }
   };
 
   const onValueChange = useCallback(
@@ -102,12 +102,12 @@ const AuthScreen = (props) => {
         change={onValueChange}
         initialValue={formState.inputValues.name}
         initialValid={false}
-        required
-        name
         errorText={{
           required: "name is required",
           nameInvalid: "please type a valid name",
         }}
+        required
+        name
       />
       <Input
         label="Mobile Number"
@@ -133,14 +133,14 @@ const AuthScreen = (props) => {
           required: "password is required",
         }}
         required
-        email
+        secureTextEntry={true}
       />
 
-      <View style={{ width: "100%", alignItems: "center", marginTop: 20 }}>
+      <View style={Styles.submitButtonContainer}>
         <Button
           mode="contained"
           disabled={!formState.formIsValid}
-          onPress={isLoginScreen ? onLoginHandler : onRegisterHandler}
+          onPress={onSubmitHandler}
         >
           {isLoginScreen ? "Login" : "Register"}
         </Button>
@@ -152,7 +152,12 @@ const AuthScreen = (props) => {
 const Styles = StyleSheet.create({
   screen: {
     paddingTop: 10,
-    paddingHorizontal: "10%",
+    paddingHorizontal: "5%",
+  },
+  submitButtonContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: 20,
   },
 });
 

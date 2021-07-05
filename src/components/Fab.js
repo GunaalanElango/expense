@@ -16,7 +16,7 @@ const Fab = (props) => {
         {
           icon: "plus",
           label: "Add Income",
-          onPress: () => {},
+          onPress: props.addIncome,
           color: Colors.primary,
         },
         {
