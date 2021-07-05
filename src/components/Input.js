@@ -11,6 +11,7 @@ const inputReducer = (state, action) => {
         ...state,
         value: action.value,
         isValid: action.isValid,
+        errorText: action.error,
       };
 
     case INPUT_BLUR:
@@ -29,14 +30,27 @@ const Input = (props) => {
     value: props.initialValue ? props.initialValue : "",
     touched: false,
     isValid: props.initialValid,
+    errorText: `${props.id} is required`,
   });
 
   const onValueChangeHandler = (value) => {
+    let mobileNumberRegex = /^\d{10}$/;
+    let nameRegex = /^[a-zA-Z ]+$/;
     let isValid = true;
-    if (props.required && value.length <= 0) {
+    let error = "";
+    if (props.required && value.trim().length <= 0) {
       isValid = false;
+      error = props.errorText.required;
     }
-    dispatch({ type: INPUT_VALUE_CHANGE, value, isValid });
+    if (props.mobileNumber && !mobileNumberRegex.test(value)) {
+      isValid = false;
+      error = props.errorText.mobileNumberInvalid;
+    }
+    if (props.name && !nameRegex.test(value)) {
+      isValid = false;
+      error = props.errorText.nameInvalid;
+    }
+    dispatch({ type: INPUT_VALUE_CHANGE, value, isValid, error });
   };
 
   const { id, change } = props;
@@ -59,6 +73,9 @@ const Input = (props) => {
         onBlur={onBlurHandler}
         {...props}
       />
+      {!inputState.isValid && inputState.toched ? (
+        <Text style={Styles.errorText}>{inputState.errorText}</Text>
+      ) : null}
     </View>
   );
 };
@@ -80,6 +97,11 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     fontSize: 18,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 13,
+    paddingTop: 5,
   },
 });
 

@@ -103,6 +103,11 @@ const AuthScreen = (props) => {
         initialValue={formState.inputValues.name}
         initialValid={false}
         required
+        name
+        errorText={{
+          required: "name is required",
+          nameInvalid: "please type a valid name",
+        }}
       />
       <Input
         label="Mobile Number"
@@ -111,7 +116,12 @@ const AuthScreen = (props) => {
         change={onValueChange}
         initialValue={formState.inputValues.mobileNumber}
         initialValid={false}
+        errorText={{
+          required: "mobile number is required",
+          mobileNumberInvalid: "please type a valid mobile number",
+        }}
         required
+        mobileNumber
       />
       <Input
         label="Password"
@@ -119,7 +129,11 @@ const AuthScreen = (props) => {
         change={onValueChange}
         initialValue={formState.inputValues.password}
         initialValid={false}
+        errorText={{
+          required: "password is required",
+        }}
         required
+        email
       />
 
       <View style={{ width: "100%", alignItems: "center", marginTop: 20 }}>
