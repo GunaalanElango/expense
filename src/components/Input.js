@@ -1,15 +1,22 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
 
-let MobileNumberRegex = /^\d{10}$/;
-let NameRegex = /^[a-zA-Z ]+$/;
+const INPUT_VALUE_CHANGE = "INPUT_VALUE_CHANGE";
+const INPUT_BLUR = "INPUT_BLUR";
 
 const inputReducer = (state, action) => {
   switch (action.type) {
-    case "INPUT_VALUE_CHANGE":
+    case INPUT_VALUE_CHANGE:
       return {
         ...state,
         value: action.value,
+        isValid: action.isValid,
+      };
+
+    case INPUT_BLUR:
+      return {
+        ...state,
+        toched: true,
       };
 
     default:
@@ -19,15 +26,27 @@ const inputReducer = (state, action) => {
 
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: "",
+    value: props.initialValue ? props.initialValue : "",
+    touched: false,
+    isValid: props.initialValid,
   });
 
   const onValueChangeHandler = (value) => {
-    dispatch({
-      type: "INPUT_VALUE_CHANGE",
-      value,
-    });
-    props.change(props.id, value);
+    let isValid = true;
+    if (props.required && value.length <= 0) {
+      isValid = false;
+    }
+    dispatch({ type: INPUT_VALUE_CHANGE, value, isValid });
+  };
+
+  const { id, change } = props;
+
+  useEffect(() => {
+    change(id, inputState.value, inputState.isValid);
+  }, [inputState, change]);
+
+  const onBlurHandler = () => {
+    dispatch({ type: INPUT_BLUR });
   };
 
   return (
@@ -35,9 +54,9 @@ const Input = (props) => {
       <Text style={Styles.label}>{props.label}</Text>
       <TextInput
         style={Styles.input}
-        keyboardType={props.keyboardType}
         value={inputState.value}
         onChangeText={onValueChangeHandler}
+        onBlur={onBlurHandler}
         {...props}
       />
     </View>

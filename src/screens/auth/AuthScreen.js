@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useCallback } from "react";
 import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
@@ -6,14 +6,35 @@ import { useDispatch } from "react-redux";
 import * as authActions from "../../../store/actions/auth";
 import Input from "../../components/Input";
 
+const FORM_INPUT_CHANGE = "FORM_INPUT_CHANGE";
+
 const formReducer = (state, action) => {
   switch (action.type) {
-    case "FORM_INPUT_CHANGE":
+    case FORM_INPUT_CHANGE:
+      const updatedValues = {
+        ...state.inputValues,
+        [action.id]: action.value,
+      };
+
+      const updatedValidity = {
+        ...state.inputValidity,
+        [action.id]: action.isValid,
+      };
+
+      let updatedFromIsValid = false;
+      for (const key in updatedValidity) {
+        if (!updatedValidity[key]) {
+          updatedFromIsValid = false;
+          break;
+        } else {
+          updatedFromIsValid = true;
+        }
+      }
+
       return {
-        inputValues: {
-          ...state.inputValues,
-          [action.id]: action.value,
-        },
+        inputValues: updatedValues,
+        inputValidity: updatedValidity,
+        formIsValid: updatedFromIsValid,
       };
     default:
       return state;
@@ -27,6 +48,12 @@ const AuthScreen = (props) => {
       mobileNumber: "",
       password: "",
     },
+    inputValidity: {
+      name: false,
+      mobileNumber: false,
+      password: false,
+    },
+    formIsValid: false,
   });
 
   const dispatch = useDispatch();
@@ -39,27 +66,27 @@ const AuthScreen = (props) => {
   };
 
   const onLoginHandler = () => {
-    if (!checkMobileNumberValidity(mobileNumber)) {
-      setMobileNumberError(true);
-      return;
-    }
     dispatch(
       authActions.login({
         id: Date.now(),
-        name,
-        mobileNumber,
-        password,
+        name: formState.inputValues.name,
+        mobileNumber: formState.inputValues.mobileNumber,
+        password: formState.inputValues.password,
       })
     );
   };
 
-  const onValueChange = (id, value) => {
-    dispatchFormState({
-      type: "FORM_INPUT_CHANGE",
-      id,
-      value,
-    });
-  };
+  const onValueChange = useCallback(
+    (id, value, isValid) => {
+      dispatchFormState({
+        type: FORM_INPUT_CHANGE,
+        id,
+        value,
+        isValid,
+      });
+    },
+    [dispatchFormState]
+  );
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -69,14 +96,31 @@ const AuthScreen = (props) => {
 
   return (
     <View style={Styles.screen}>
-      <Input label="Name" id="name" change={onValueChange} />
+      <Input
+        label="Name"
+        id="name"
+        change={onValueChange}
+        initialValue={formState.inputValues.name}
+        initialValid={false}
+        required
+      />
       <Input
         label="Mobile Number"
         id="mobileNumber"
         keyboardType="numeric"
         change={onValueChange}
+        initialValue={formState.inputValues.mobileNumber}
+        initialValid={false}
+        required
       />
-      <Input label="Password" id="password" change={onValueChange} />
+      <Input
+        label="Password"
+        id="password"
+        change={onValueChange}
+        initialValue={formState.inputValues.password}
+        initialValid={false}
+        required
+      />
 
       <View style={{ width: "100%", alignItems: "center", marginTop: 20 }}>
         <Button
