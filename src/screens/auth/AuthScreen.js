@@ -1,34 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
-import { TextInput, Button, HelperText } from "react-native-paper";
+import React, { useEffect, useReducer } from "react";
+import { View, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
-// import Colors from "../../../colors/colors";
 import * as authActions from "../../../store/actions/auth";
+import Input from "../../components/Input";
 
-let MobileNumberRegex = /^\d{10}$/;
-let NameRegex = /^[a-zA-Z ]+$/;
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case "FORM_INPUT_CHANGE":
+      return {
+        inputValues: {
+          ...state.inputValues,
+          [action.id]: action.value,
+        },
+      };
+    default:
+      return state;
+  }
+};
 
 const AuthScreen = (props) => {
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    inputValues: {
+      name: "",
+      mobileNumber: "",
+      password: "",
+    },
+  });
+
   const dispatch = useDispatch();
   const isLoginScreen = props.route.params.login;
-  // const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-
-  const checkNameValidity = (value) => {
-    return NameRegex.test(value);
-  };
-
-  const checkMobileNumberValidity = (value) => {
-    return MobileNumberRegex.test(value);
-  };
-
-  const [name, setName] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [nameError, setNameError] = useState(false);
-  const [mobileNumberError, setMobileNumberError] = useState(false);
-  // const [disableBtn, setDisableBtn] = useState("inital");
 
   const onRegisterHandler = () => {
     props.navigation.navigate("OTPScreen", {
@@ -51,22 +53,12 @@ const AuthScreen = (props) => {
     );
   };
 
-  const onValueChangeHandler = (field, enteredValue) => {
-    switch (field) {
-      case "name":
-        setNameError(!checkNameValidity(enteredValue));
-        setName(enteredValue);
-        break;
-      case "mobileNumber":
-        setMobileNumberError(!checkMobileNumberValidity(enteredValue));
-        setMobileNumber(enteredValue);
-        break;
-      case "password":
-        setPassword(enteredValue);
-        break;
-      default:
-        break;
-    }
+  const onValueChange = (id, value) => {
+    dispatchFormState({
+      type: "FORM_INPUT_CHANGE",
+      id,
+      value,
+    });
   };
 
   useEffect(() => {
@@ -76,92 +68,34 @@ const AuthScreen = (props) => {
   });
 
   return (
-    <ScrollView style={Styles.screen}>
-      <View style={{ paddingHorizontal: "5%" }}>
-        {isLoginScreen ? null : (
-          <View>
-            <TextInput
-              mode="flat"
-              label="Name"
-              outlineColor="#000"
-              style={Styles.textInput}
-              value={name}
-              onChangeText={(enteredName) =>
-                onValueChangeHandler("name", enteredName)
-              }
-              error={nameError}
-            />
-            <HelperText
-              style={{ fontSize: 12, paddingVertical: 8 }}
-              padding="none"
-              type="error"
-              visible={nameError}
-            >
-              Name should contain only alphabets
-            </HelperText>
-          </View>
-        )}
-        <View>
-          <TextInput
-            mode="flat"
-            label="Mobile number"
-            outlineColor="#000"
-            style={Styles.textInput}
-            value={mobileNumber}
-            error={mobileNumberError}
-            onChangeText={(enteredNumber) =>
-              onValueChangeHandler("mobileNumber", enteredNumber)
-            }
-            keyboardType="numeric"
-          />
-          <HelperText
-            style={{ fontSize: 12, paddingVertical: 8 }}
-            padding="none"
-            type="error"
-            visible={mobileNumberError}
-          >
-            Number should be in 10 digit number
-          </HelperText>
-        </View>
-        <View>
-          <TextInput
-            mode="flat"
-            label="Password"
-            outlineColor="#000"
-            style={Styles.textInput}
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(enteredPassword) =>
-              onValueChangeHandler("password", enteredPassword)
-            }
-            // right={
-            //   <TextInput.Icon
-            //     name="eye"
-            //     onPress={() => setIsPasswordHidden((prevState) => !prevState)}
-            //     color={Colors.secondary}
-            //   />
-            // }
-          />
-        </View>
-        <View style={{ width: "100%", alignItems: "center", marginTop: 20 }}>
-          <Button
-            mode="contained"
-            onPress={isLoginScreen ? onLoginHandler : onRegisterHandler}
-          >
-            {isLoginScreen ? "Login" : "Register"}
-          </Button>
-        </View>
+    <View style={Styles.screen}>
+      <Input label="Name" id="name" change={onValueChange} />
+      <Input
+        label="Mobile Number"
+        id="mobileNumber"
+        keyboardType="numeric"
+        change={onValueChange}
+      />
+      <Input label="Password" id="password" change={onValueChange} />
+
+      <View style={{ width: "100%", alignItems: "center", marginTop: 20 }}>
+        <Button
+          mode="contained"
+          disabled={!formState.formIsValid}
+          onPress={isLoginScreen ? onLoginHandler : onRegisterHandler}
+        >
+          {isLoginScreen ? "Login" : "Register"}
+        </Button>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const Styles = StyleSheet.create({
   screen: {
-    flex: 1,
     paddingTop: 10,
+    paddingHorizontal: "10%",
   },
-  textInput: { backgroundColor: "#fff", fontSize: 16 },
 });
 
 export default AuthScreen;
