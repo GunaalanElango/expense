@@ -4,11 +4,11 @@
     "slug": "Expense",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/save-money.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/save-money.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FA8072"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/save-money.png",
         "backgroundColor": "#FFFFFF"
       }
     },

@@ -30,7 +30,7 @@ const Input = (props) => {
     value: props.initialValue ? props.initialValue : "",
     touched: false,
     isValid: props.initialValid,
-    errorText: `${props.id} is required`,
+    errorText: "",
   });
 
   const onValueChangeHandler = (value) => {
@@ -69,7 +69,12 @@ const Input = (props) => {
 
   return (
     <View style={Styles.inputContainer}>
-      <Text style={Styles.label}>{props.label}</Text>
+      <View style={{ flexDirection: "row" }}>
+        <Text style={Styles.label}>{props.label}</Text>
+        {props.required ? (
+          <Text style={{ color: "red", paddingHorizontal: 5 }}>*</Text>
+        ) : null}
+      </View>
       <TextInput
         style={Styles.input}
         value={inputState.value}
@@ -77,7 +82,9 @@ const Input = (props) => {
         onBlur={onBlurHandler}
         {...props}
       />
-      {!inputState.isValid && inputState.toched ? (
+      {!inputState.isValid &&
+      inputState.toched &&
+      inputState.errorText !== "" ? (
         <Text style={Styles.errorText}>{inputState.errorText}</Text>
       ) : null}
     </View>
@@ -93,7 +100,7 @@ const Styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     paddingBottom: 5,
-    color: "rgba(0,0,0,0.7)"
+    color: "rgba(0,0,0,0.7)",
   },
   input: {
     borderColor: "rgba(0,0,0,0.5)",

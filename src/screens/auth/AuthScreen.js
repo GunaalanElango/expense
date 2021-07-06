@@ -1,5 +1,11 @@
 import React, { useEffect, useReducer, useCallback } from "react";
-import { View, StyleSheet } from "react-native";
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
@@ -42,6 +48,15 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = (props) => {
+  const dispatch = useDispatch();
+  const isLoginScreen = props.route.params.login;
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: isLoginScreen ? "Login" : "Register",
+    });
+  });
+
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       name: "",
@@ -55,9 +70,6 @@ const AuthScreen = (props) => {
     },
     formIsValid: false,
   });
-
-  const dispatch = useDispatch();
-  const isLoginScreen = props.route.params.login;
 
   const onSubmitHandler = () => {
     if (isLoginScreen) {
@@ -88,69 +100,71 @@ const AuthScreen = (props) => {
     [dispatchFormState]
   );
 
-  useEffect(() => {
-    props.navigation.setOptions({
-      title: isLoginScreen ? "Login" : "Register",
-    });
-  });
-
   return (
-    <View style={Styles.screen}>
-      <Input
-        label="Name"
-        id="name"
-        change={onValueChange}
-        initialValue={formState.inputValues.name}
-        initialValid={false}
-        errorText={{
-          required: "name is required",
-          nameInvalid: "please type a valid name",
-        }}
-        required
-        name
-      />
-      <Input
-        label="Mobile Number"
-        id="mobileNumber"
-        keyboardType="numeric"
-        change={onValueChange}
-        initialValue={formState.inputValues.mobileNumber}
-        initialValid={false}
-        errorText={{
-          required: "mobile number is required",
-          mobileNumberInvalid: "please type a valid mobile number",
-        }}
-        required
-        mobileNumber
-      />
-      <Input
-        label="Password"
-        id="password"
-        change={onValueChange}
-        initialValue={formState.inputValues.password}
-        initialValid={false}
-        errorText={{
-          required: "password is required",
-        }}
-        required
-        secureTextEntry={true}
-      />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <ScrollView>
+        <View style={Styles.screen}>
+          <Input
+            label="Name"
+            id="name"
+            change={onValueChange}
+            initialValue={formState.inputValues.name}
+            initialValid={false}
+            errorText={{
+              required: "Name is required",
+              nameInvalid: "Please type a valid name",
+            }}
+            required
+            name
+          />
+          <Input
+            label="Mobile Number"
+            id="mobileNumber"
+            keyboardType="numeric"
+            change={onValueChange}
+            initialValue={formState.inputValues.mobileNumber}
+            initialValid={false}
+            errorText={{
+              required: "Mobile number is required",
+              mobileNumberInvalid: "Please type a valid mobile number",
+            }}
+            required
+            mobileNumber
+          />
+          <Input
+            label="Password"
+            id="password"
+            change={onValueChange}
+            initialValue={formState.inputValues.password}
+            initialValid={false}
+            errorText={{
+              required: "Password is required",
+            }}
+            required
+            secureTextEntry={true}
+          />
 
-      <View style={Styles.submitButtonContainer}>
-        <Button
-          mode="contained"
-          disabled={!formState.formIsValid}
-          onPress={onSubmitHandler}
-        >
-          {isLoginScreen ? "Login" : "Register"}
-        </Button>
-      </View>
-    </View>
+          <View style={Styles.submitButtonContainer}>
+            <Button
+              mode="contained"
+              disabled={!formState.formIsValid}
+              onPress={onSubmitHandler}
+            >
+              {isLoginScreen ? "Login" : "Register"}
+            </Button>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const Styles = StyleSheet.create({
   screen: {
+    flex: 1,
     paddingTop: 10,
     paddingHorizontal: "5%",
   },
