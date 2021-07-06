@@ -16,18 +16,20 @@ import AuthScreen from "../src/screens/auth/AuthScreen";
 import StartupScreen from "../src/screens/StartupScreen";
 import Colors from "../colors/colors";
 import OTPScreen from "../src/screens/auth/OTPScreen";
+import EditExpenseScreen from "../src/screens/EditExpenseScreen";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const HomeStackNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="EditExpenseScreen" component={EditExpenseScreen} />
     </Stack.Navigator>
   );
 };
@@ -52,12 +54,9 @@ const CustomDrawerComponent = (props) => {
       </DrawerContentScrollView>
       <DrawerItem
         label="Logout"
-        inactiveTintColor="#000"
         inactiveBackgroundColor="rgba(0,0,0,0.05)"
-        pressColor={Colors.primary}
         labelStyle={{
           fontSize: 15,
-          fontWeight: "bold",
         }}
         onPress={() => dispatch(authActions.logout())}
         icon={(props) => (
@@ -81,6 +80,8 @@ const MainDrawerNavigator = () => {
       drawerContentOptions={{
         activeTintColor: Colors.primary,
         inactiveTintColor: "#000000",
+        activeBackgroundColor: "#fff",
+        inactiveBackgroundColor: "#fff",
         labelStyle: {
           fontSize: 15,
         },
@@ -93,7 +94,7 @@ const MainDrawerNavigator = () => {
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
-          fontSize: 18,
+          fontSize: 17,
         },
       }}
     >
@@ -118,9 +119,7 @@ export const StartupNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: Colors.primary,
-        },
+        headerStyle: { backgroundColor: Colors.primary },
         headerTintColor: "#fff",
         headerTitleAlign: "center",
       }}
@@ -137,10 +136,7 @@ export const StartupNavigator = () => {
         name="OTPScreen"
         component={OTPScreen}
         options={{
-          headerStyle: {
-            backgroundColor: "#fff",
-            elevation: 0,
-          },
+          headerStyle: { backgroundColor: "#fff", elevation: 0 },
           headerTintColor: "#000",
           title: "",
         }}
@@ -158,7 +154,6 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderBottomColor: "rgba(0,0,0,0.5)",
     borderBottomWidth: 1,
-    backgroundColor: "rgba(0,0,0,0.1)",
   },
 });
 

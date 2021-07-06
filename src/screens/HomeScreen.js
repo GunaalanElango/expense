@@ -9,9 +9,17 @@ import Fab from "../components/Fab";
 const HomeScreen = (props) => {
   const isDrawerOpen = useIsDrawerOpen();
   const isScreenFocused = useIsFocused();
+
   let FAB = isDrawerOpen ? null : (
     <Portal>
-      <Fab visible={isScreenFocused} />
+      <Fab
+        visible={isScreenFocused}
+        addExpense={() =>
+          props.navigation.navigate("EditExpenseScreen", {
+            edit: false,
+          })
+        }
+      />
     </Portal>
   );
 

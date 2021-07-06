@@ -22,7 +22,7 @@ const Fab = (props) => {
         {
           icon: "minus",
           label: "Add Expense",
-          onPress: () => {},
+          onPress: props.addExpense,
           color: Colors.primary,
         },
       ]}
@@ -36,7 +36,8 @@ const Styles = StyleSheet.create({
   fab: {
     position: "absolute",
     right: 0,
-    bottom: 55,
+    bottom: 0,
+    padding: 5,
   },
 });
 
