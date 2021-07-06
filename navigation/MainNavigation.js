@@ -6,15 +6,12 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { View, Image } from "react-native";
-import { Text } from "react-native-paper";
+import { View, Image, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../store/actions/auth";
 
 import HomeScreen from "../src/screens/HomeScreen";
-import AddIncomeScreen from "../src/screens/AddIncomeScreen";
 import AuthScreen from "../src/screens/auth/AuthScreen";
 import StartupScreen from "../src/screens/StartupScreen";
 import Colors from "../colors/colors";
@@ -22,38 +19,16 @@ import OTPScreen from "../src/screens/auth/OTPScreen";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
 
-const HomeTabNavigator = () => {
+const HomeStackNavigator = () => {
   return (
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: Colors.primary,
-        safeAreaInsets: {
-          bottom: 5,
-          right: 0,
-          left: 0,
-        },
-        labelStyle: {
-          fontSize: 14,
-        },
-      }}
-    >
-      <Tab.Screen
+    <Stack.Navigator>
+      <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{
-          tabBarIcon: () => (
-            <Ionicons
-              name="ios-home-outline"
-              size={25}
-              color={Colors.primary}
-            />
-          ),
-          title: "Home",
-        }}
+        options={{ headerShown: false }}
       />
-    </Tab.Navigator>
+    </Stack.Navigator>
   );
 };
 
@@ -64,20 +39,9 @@ const CustomDrawerComponent = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: 10,
-            borderBottomColor: "rgba(0,0,0,0.1)",
-            borderBottomWidth: 2,
-            paddingBottom: 15,
-            marginHorizontal: 10,
-          }}
-        >
-          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-            Welcome {authenticatedUser.name} !
+        <View style={Styles.drawerHeaderStyle}>
+          <Text style={{ fontSize: 15 }}>
+            Welcome {authenticatedUser.name}!
           </Text>
           <Image
             source={require("../assets/asset-management.png")}
@@ -116,12 +80,9 @@ const MainDrawerNavigator = () => {
       drawerContent={(props) => <CustomDrawerComponent {...props} />}
       drawerContentOptions={{
         activeTintColor: Colors.primary,
-        activeBackgroundColor: "#fff",
-        inactiveTintColor: "black",
-        inactiveBackgroundColor: "#fff",
+        inactiveTintColor: "#000000",
         labelStyle: {
           fontSize: 15,
-          fontWeight: "bold",
         },
       }}
       screenOptions={{
@@ -129,7 +90,6 @@ const MainDrawerNavigator = () => {
         headerShown: true,
         headerStyle: {
           backgroundColor: Colors.primary,
-          height: 70,
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
@@ -138,33 +98,16 @@ const MainDrawerNavigator = () => {
       }}
     >
       <Drawer.Screen
-        name="HomeScreen"
-        component={HomeTabNavigator}
+        name="HomeStackScreen"
+        component={HomeStackNavigator}
         options={{
-          title: `Welcome ${authenticatedUser.name} !`,
+          title: `Welcome ${authenticatedUser.name}!`,
           drawerIcon: (props) => {
             return (
               <Ionicons name="ios-home-outline" size={25} color={props.color} />
             );
           },
           drawerLabel: "Home",
-        }}
-      />
-      <Drawer.Screen
-        name="AddIncomeScreen"
-        component={AddIncomeScreen}
-        options={{
-          title: "Add Income",
-          drawerLabel: "Add Income",
-          drawerIcon: (props) => {
-            return (
-              <Ionicons
-                name="md-add-circle-outline"
-                size={25}
-                color={props.color}
-              />
-            );
-          },
         }}
       />
     </Drawer.Navigator>
@@ -205,5 +148,18 @@ export const StartupNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+const Styles = StyleSheet.create({
+  drawerHeaderStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderBottomColor: "rgba(0,0,0,0.5)",
+    borderBottomWidth: 1,
+    backgroundColor: "rgba(0,0,0,0.1)",
+  },
+});
 
 export default MainDrawerNavigator;
