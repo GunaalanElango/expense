@@ -5,6 +5,16 @@ const initialState = {
       name: "Petrol",
       disabled: false,
     },
+    {
+      id: 2,
+      name: "Setrol",
+      disabled: false,
+    },
+    {
+      id: 3,
+      name: "Sstrol",
+      disabled: false,
+    },
   ],
 };
 

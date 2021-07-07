@@ -35,16 +35,14 @@ const HomeStackNavigator = () => {
 };
 
 const CustomDrawerComponent = (props) => {
-  const authenticatedUser = useSelector((state) => state.auth.user);
+  // const authenticatedUser = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
         <View style={Styles.drawerHeaderStyle}>
-          <Text style={{ fontSize: 15 }}>
-            Welcome {authenticatedUser.name}!
-          </Text>
+          <Text style={{ fontSize: 15 }}>Welcome Gunaalan!</Text>
           <Image
             source={require("../assets/asset-management.png")}
             style={{ width: 60, height: 60 }}
@@ -72,7 +70,7 @@ const CustomDrawerComponent = (props) => {
 };
 
 const MainDrawerNavigator = () => {
-  const authenticatedUser = useSelector((state) => state.auth.user);
+  // const authenticatedUser = useSelector((state) => state.auth.user);
 
   return (
     <Drawer.Navigator
@@ -102,7 +100,7 @@ const MainDrawerNavigator = () => {
         name="HomeStackScreen"
         component={HomeStackNavigator}
         options={{
-          title: `Welcome ${authenticatedUser.name}!`,
+          title: "Home",
           drawerIcon: (props) => {
             return (
               <Ionicons name="ios-home-outline" size={25} color={props.color} />
