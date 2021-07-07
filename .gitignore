@@ -10,6 +10,7 @@ npm-debug.*
 web-build/
 
 defaultComponentCode.js
+stateDesign.js
 
 # macOS
 .DS_Store

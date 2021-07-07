@@ -7,17 +7,20 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Button } from "react-native-paper";
 
 import Input from "../components/Input";
-import SearchBarInput from "../components/SearchBarInput";
 import { formReducer, FORM_INPUT_CHANGE } from "../../store/reducers/form";
+import { addExpense } from "../../store/actions/expense";
 
 const EditExpenseScreen = (props) => {
+  const dispatch = useDispatch();
+
   const isEditScreen = props.route.params.edit;
   const title = isEditScreen ? "Update Expense" : "Add Expense";
 
-  const categories = useSelector((state) => state.category.categories);
+  const categories = useSelector((state) => state.categories);
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       amount: "",
@@ -26,23 +29,12 @@ const EditExpenseScreen = (props) => {
     },
     inputValidity: {
       amount: false,
-      description: "",
     },
     formIsValid: false,
   });
 
-  const [showDropDown, setShowDropDown] = useState(false);
-
-  const onFocusSearch = () => {
-    setShowDropDown(true);
-  };
-
-  const onDismissDropdown = () => {
-    setShowDropDown(false);
-  };
-
   const onValueChangeHandler = useCallback(
-    (id, value, isValid = false) => {
+    (id, value, isValid) => {
       dispatchFormState({
         type: FORM_INPUT_CHANGE,
         id,
@@ -59,26 +51,21 @@ const EditExpenseScreen = (props) => {
     });
   });
 
+  const onSubmitHandler = () => {
+    dispatch(
+      addExpense(
+        formState.inputValues.amount,
+        formState.inputValues.category,
+        formState.inputValues.description
+      )
+    );
+  };
+
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-          onDismissDropdown();
-        }}
-      >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={Styles.screen}>
           <Text style={Styles.formTitle}>{title}</Text>
-          <SearchBarInput
-            categories={categories}
-            label="Category"
-            initialValue={formState.inputValues.category}
-            id="category"
-            change={onValueChangeHandler}
-            showDropDown={showDropDown}
-            onfocus={onFocusSearch}
-            ondismiss={onDismissDropdown}
-          />
           <Input
             id="amount"
             label="Amount"
@@ -87,7 +74,7 @@ const EditExpenseScreen = (props) => {
               required: "Amount is required",
             }}
             initialValue={formState.inputValues.amount}
-            initialValid={true}
+            initialValid={false}
             change={onValueChangeHandler}
             required
           />
@@ -97,9 +84,18 @@ const EditExpenseScreen = (props) => {
             multiline={true}
             numberOfLines={3}
             initialValue={formState.inputValues.amount}
-            initialValid={true}
+            initialValid={false}
             change={onValueChangeHandler}
           />
+          <View style={Styles.submitButtonContainer}>
+            <Button
+              mode="contained"
+              disabled={!formState.formIsValid}
+              onPress={onSubmitHandler}
+            >
+              {title}
+            </Button>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -116,6 +112,11 @@ const Styles = StyleSheet.create({
     paddingTop: 20,
     fontSize: 20,
     fontWeight: "bold",
+  },
+  submitButtonContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: 20,
   },
 });
 
