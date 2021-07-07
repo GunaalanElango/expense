@@ -131,8 +131,8 @@ const AuthScreen = (props) => {
 const Styles = StyleSheet.create({
   screen: {
     flex: 1,
-    paddingTop: 10,
-    paddingHorizontal: "5%",
+    marginTop: 10,
+    marginHorizontal: "5%",
   },
   submitButtonContainer: {
     width: "100%",

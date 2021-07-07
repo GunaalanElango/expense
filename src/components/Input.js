@@ -76,7 +76,10 @@ const Input = (props) => {
         ) : null}
       </View>
       <TextInput
-        style={Styles.input}
+        style={[
+          Styles.input,
+          { textAlignVertical: props.id === "description" ? "top" : "center" },
+        ]}
         value={inputState.value}
         onChangeText={onValueChangeHandler}
         onBlur={onBlurHandler}
@@ -91,7 +94,7 @@ const Input = (props) => {
   );
 };
 
-const Styles = StyleSheet.create({
+export const Styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
     marginVertical: 5,

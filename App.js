@@ -7,9 +7,11 @@ import { Provider } from "react-redux";
 import Colors from "./colors/colors";
 import AppNavigator from "./navigation/AppNavigation";
 import authReducer from "./store/reducers/auth";
+import categoryReducer from "./store/reducers/category";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  category: categoryReducer,
 });
 
 const store = createStore(rootReducer);

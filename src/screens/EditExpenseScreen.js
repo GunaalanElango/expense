@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer, useCallback } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
 
 import Input from "../components/Input";
+import SearchBarInput from "../components/SearchBarInput";
 import { formReducer, FORM_INPUT_CHANGE } from "../../store/reducers/form";
 
 const EditExpenseScreen = (props) => {
@@ -11,9 +12,11 @@ const EditExpenseScreen = (props) => {
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       amount: "",
+      description: "",
     },
     inputValidity: {
       amount: false,
+      description: "",
     },
     formIsValid: false,
   });
@@ -37,28 +40,40 @@ const EditExpenseScreen = (props) => {
   });
 
   return (
-    <View style={Styles.screen}>
-      <Text style={Styles.formTitle}>{title}</Text>
-      <Input
-        id="amount"
-        label="Amount"
-        keyboardType="numeric"
-        errorText={{
-          required: "Amount is required",
-        }}
-        initialValue={formState.inputValues.amount}
-        initialValid={true}
-        change={onValueChangeHandler}
-        required
-      />
-    </View>
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <View style={Styles.screen}>
+        <Text style={Styles.formTitle}>{title}</Text>
+        <SearchBarInput label="Category" />
+        <Input
+          id="amount"
+          label="Amount"
+          keyboardType="numeric"
+          errorText={{
+            required: "Amount is required",
+          }}
+          initialValue={formState.inputValues.amount}
+          initialValid={true}
+          change={onValueChangeHandler}
+          required
+        />
+        <Input
+          id="description"
+          label="Description"
+          multiline={true}
+          numberOfLines={3}
+          initialValue={formState.inputValues.amount}
+          initialValid={true}
+          change={onValueChangeHandler}
+        />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const Styles = StyleSheet.create({
   screen: {
     flex: 1,
-    paddingHorizontal: "5%",
+    marginHorizontal: "5%",
   },
   formTitle: {
     textAlign: "center",
