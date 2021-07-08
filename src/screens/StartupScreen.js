@@ -8,7 +8,7 @@ const StartupScreen = (props) => {
     <View style={Styles.screen}>
       <View style={Styles.imageContainer}>
         <Image
-          source={require("../../assets/save-money.png")}
+          source={require("../../assets/wealth.png")}
           resizeMode="stretch"
           style={{ width: 70, height: 120 }}
         />

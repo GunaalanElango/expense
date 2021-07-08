@@ -6,36 +6,52 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { View, Image, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../store/actions/auth";
 
 import HomeScreen from "../src/screens/HomeScreen";
 import AuthScreen from "../src/screens/auth/AuthScreen";
-import StartupScreen from "../src/screens/StartupScreen";
-import Colors from "../colors/colors";
-import OTPScreen from "../src/screens/auth/OTPScreen";
 import EditExpenseScreen from "../src/screens/EditExpenseScreen";
+import StartupScreen from "../src/screens/StartupScreen";
+import OTPScreen from "../src/screens/auth/OTPScreen";
+import EditIncomeScreen from "../src/screens/EditIncomeScreen";
+import EditCategoryScreen from "../src/screens/EditCategoryScreen";
+import Colors from "../colors/colors";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const HomeStackNavigator = () => {
+const defaultStackScreenOptions = {
+  headerStyle: { backgroundColor: Colors.primary },
+  headerTintColor: "#ffffff",
+  headerTitleAlign: "left",
+};
+
+export const StartupNavigator = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="EditExpenseScreen" component={EditExpenseScreen} />
+    <Stack.Navigator screenOptions={defaultStackScreenOptions}>
+      <Stack.Screen
+        name="StartupScreen"
+        component={StartupScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="AuthScreen" component={AuthScreen} />
+      <Stack.Screen
+        name="OTPScreen"
+        component={OTPScreen}
+        options={{
+          headerStyle: { backgroundColor: "#ffffff", elevation: 0 },
+          headerTintColor: "#000",
+          title: "",
+        }}
+      />
     </Stack.Navigator>
   );
 };
 
 const CustomDrawerComponent = (props) => {
-  // const authenticatedUser = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   return (
@@ -44,8 +60,8 @@ const CustomDrawerComponent = (props) => {
         <View style={Styles.drawerHeaderStyle}>
           <Text style={{ fontSize: 15 }}>Welcome Gunaalan!</Text>
           <Image
-            source={require("../assets/asset-management.png")}
-            style={{ width: 60, height: 60 }}
+            source={require("../assets/wealth.png")}
+            style={{ width: 100, height: 100 }}
           />
         </View>
         <DrawerItemList {...props} />
@@ -69,9 +85,7 @@ const CustomDrawerComponent = (props) => {
   );
 };
 
-const MainDrawerNavigator = () => {
-  // const authenticatedUser = useSelector((state) => state.auth.user);
-
+const HomeDrawerNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerComponent {...props} />}
@@ -97,8 +111,8 @@ const MainDrawerNavigator = () => {
       }}
     >
       <Drawer.Screen
-        name="HomeStackScreen"
-        component={HomeStackNavigator}
+        name="HomeScreen"
+        component={HomeScreen}
         options={{
           title: "Home",
           drawerIcon: (props) => {
@@ -109,36 +123,33 @@ const MainDrawerNavigator = () => {
           drawerLabel: "Home",
         }}
       />
+      <Drawer.Screen
+        name="EditCategoryScreen"
+        component={EditCategoryScreen}
+        options={{
+          title: "Category",
+          drawerIcon: (props) => {
+            return (
+              <MaterialIcons name="category" size={25} color={props.color} />
+            );
+          },
+          drawerLabel: "Category",
+        }}
+      />
     </Drawer.Navigator>
   );
 };
 
-export const StartupNavigator = () => {
+const MainStackNavigator = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary },
-        headerTintColor: "#fff",
-        headerTitleAlign: "center",
-      }}
-    >
+    <Stack.Navigator screenOptions={defaultStackScreenOptions}>
       <Stack.Screen
-        name="StartupScreen"
-        component={StartupScreen}
-        options={{
-          headerShown: false,
-        }}
+        name="HomeDrawer"
+        component={HomeDrawerNavigator}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen name="AuthScreen" component={AuthScreen} />
-      <Stack.Screen
-        name="OTPScreen"
-        component={OTPScreen}
-        options={{
-          headerStyle: { backgroundColor: "#fff", elevation: 0 },
-          headerTintColor: "#000",
-          title: "",
-        }}
-      />
+      <Stack.Screen name="EditExpenseScreen" component={EditExpenseScreen} />
+      <Stack.Screen name="EditIncomeScreen" component={EditIncomeScreen} />
     </Stack.Navigator>
   );
 };
@@ -155,4 +166,4 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default MainDrawerNavigator;
+export default MainStackNavigator;

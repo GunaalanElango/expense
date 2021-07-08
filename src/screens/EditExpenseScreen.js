@@ -2,7 +2,6 @@ import React, { useEffect, useReducer, useCallback, useState } from "react";
 import {
   View,
   StyleSheet,
-  Text,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
@@ -65,7 +64,6 @@ const EditExpenseScreen = (props) => {
     <KeyboardAvoidingView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={Styles.screen}>
-          <Text style={Styles.formTitle}>{title}</Text>
           <Input
             id="amount"
             label="Amount"
@@ -106,12 +104,6 @@ const Styles = StyleSheet.create({
   screen: {
     flex: 1,
     marginHorizontal: "5%",
-  },
-  formTitle: {
-    textAlign: "center",
-    paddingTop: 20,
-    fontSize: 20,
-    fontWeight: "bold",
   },
   submitButtonContainer: {
     width: "100%",

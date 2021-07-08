@@ -22,7 +22,10 @@ const Fab = (props) => {
         {
           icon: "minus",
           label: "Add Expense",
-          onPress: props.addExpense,
+          onPress: () => {
+            setOpen(false);
+            props.addExpense();
+          },
           color: Colors.primary,
         },
       ]}
