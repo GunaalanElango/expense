@@ -1,30 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Portal } from "react-native-paper";
 import { useIsDrawerOpen } from "@react-navigation/drawer";
-import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 import Fab from "../components/Fab";
+import Colors from "../../colors/colors";
 
 const HomeScreen = (props) => {
+  const [showItems, setShowItems] = useState(false);
+
   const isDrawerOpen = useIsDrawerOpen();
-  const isScreenFocused = useIsFocused();
+
+  useFocusEffect(() => {
+    return () => {
+      if (showItems) {
+        setShowItems(false);
+      }
+    };
+  });
 
   let FAB = isDrawerOpen ? null : (
-    <Portal>
-      <Fab
-        visible={isScreenFocused}
-        addExpense={() =>
-          props.navigation.navigate("EditExpenseScreen", {
-            edit: false,
-          })
-        }
-      />
-    </Portal>
+    <Fab
+      showItems={showItems}
+      clicked={() => setShowItems((prev) => !prev)}
+      items={[
+        {
+          label: "Add Income",
+          icon: <MaterialIcons name="add" size={24} color={Colors.primary} />,
+          clicked: () => props.navigation.navigate("EditIncomeScreen"),
+        },
+        {
+          label: "Add Expense",
+          icon: <AntDesign name="minus" size={24} color={Colors.primary} />,
+          clicked: () =>
+            props.navigation.navigate("EditExpenseScreen", { edit: false }),
+        },
+      ]}
+    />
   );
 
   return (
-    <View style={Styles.screen}>
+    <View
+      style={{
+        ...Styles.screen,
+        backgroundColor: showItems ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.05)",
+      }}
+    >
       <Text>HomeScreen</Text>
       {FAB}
     </View>

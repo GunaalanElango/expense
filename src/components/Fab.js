@@ -1,46 +1,66 @@
 import React, { useState } from "react";
-import { FAB } from "react-native-paper";
-import { StyleSheet } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 import Colors from "../../colors/colors";
 
 const Fab = (props) => {
-  const [open, setOpen] = useState(false);
+  let Items = props.items.map((item, index) => {
+    return (
+      <View style={Styles.fabItem} key={index}>
+        <Text style={Styles.labelStyle}>{item.label}</Text>
+
+        <TouchableOpacity
+          style={{ ...Styles.fabMainButton, backgroundColor: "white" }}
+          onPress={item.clicked}
+        >
+          {item.icon}
+        </TouchableOpacity>
+      </View>
+    );
+  });
+
   return (
-    <FAB.Group
-      style={Styles.fab}
-      open={open}
-      color="#fff"
-      icon={open ? "close" : "plus"}
-      actions={[
-        {
-          icon: "plus",
-          label: "Add Income",
-          onPress: () => {},
-          color: Colors.primary,
-        },
-        {
-          icon: "minus",
-          label: "Add Expense",
-          onPress: () => {
-            setOpen(false);
-            props.addExpense();
-          },
-          color: Colors.primary,
-        },
-      ]}
-      onStateChange={({ open }) => setOpen(open)}
-      visible={props.visible}
-    />
+    <View style={Styles.fab}>
+      {props.showItems ? Items : null}
+
+      <TouchableOpacity
+        activeOpacity={0.5}
+        style={Styles.fabMainButton}
+        onPress={props.clicked}
+      >
+        <MaterialIcons
+          name={props.showItems ? "close" : "add"}
+          size={25}
+          color="#fff"
+        />
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const Styles = StyleSheet.create({
+  labelStyle: {
+    fontSize: 15,
+    backgroundColor: "white",
+    color: Colors.primary,
+    marginRight: 5,
+    padding: 8,
+    borderRadius: 3,
+  },
+  fabMainButton: {
+    padding: 20,
+    marginTop: 5,
+    backgroundColor: Colors.primary,
+    borderRadius: 50,
+  },
+  fabItem: { flexDirection: "row", alignItems: "center" },
   fab: {
     position: "absolute",
     right: 0,
     bottom: 0,
-    padding: 5,
+    margin: 16,
+    alignItems: "flex-end",
   },
 });
 
