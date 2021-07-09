@@ -6,6 +6,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { View, Image, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +23,7 @@ import Colors from "../colors/colors";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 const defaultStackScreenOptions = {
   headerStyle: { backgroundColor: Colors.primary },
@@ -48,6 +50,30 @@ export const StartupNavigator = () => {
         }}
       />
     </Stack.Navigator>
+  );
+};
+
+const CategoryTopTabNavigator = () => {
+  return (
+    <TopTab.Navigator
+      swipeEnabled={false}
+      tabBarOptions={{
+        activeTintColor: Colors.primary,
+        indicatorStyle: {
+          backgroundColor: Colors.primary,
+        },
+      }}
+    >
+      <TopTab.Screen name="IncomeCategory" options={{ tabBarLabel: "Income" }}>
+        {(props) => <EditCategoryScreen type="income" {...props} />}
+      </TopTab.Screen>
+      <TopTab.Screen
+        name="ExpenseCategory"
+        options={{ tabBarLabel: "Expense" }}
+      >
+        {(props) => <EditCategoryScreen type="expense" {...props} />}
+      </TopTab.Screen>
+    </TopTab.Navigator>
   );
 };
 
@@ -125,7 +151,7 @@ const HomeDrawerNavigator = () => {
       />
       <Drawer.Screen
         name="EditCategoryScreen"
-        component={EditCategoryScreen}
+        component={CategoryTopTabNavigator}
         options={{
           title: "Category",
           drawerIcon: (props) => {

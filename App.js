@@ -13,7 +13,7 @@ import expenseReducer from "./store/reducers/expense";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  categories: categoryReducer,
+  category: categoryReducer,
   expenses: expenseReducer,
 });
 
