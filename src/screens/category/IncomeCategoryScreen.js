@@ -2,10 +2,14 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useSelector } from "react-redux";
 
-const EditCategoryScreen = (props) => {
+import CategoryList from "../../components/CategoryList";
+
+const IncomeCategoryScreen = (props) => {
+  const category = useSelector((state) => state.category.income);
+
   return (
     <View style={Styles.screen}>
-      <View></View>
+      <CategoryList categoryList={category} />
     </View>
   );
 };
@@ -13,7 +17,8 @@ const EditCategoryScreen = (props) => {
 const Styles = StyleSheet.create({
   screen: {
     flex: 1,
+    padding: "5%",
   },
 });
 
-export default EditCategoryScreen;
+export default IncomeCategoryScreen;

@@ -1,7 +1,7 @@
 import { ADD_CATEGORY } from "../actions/category";
 
 const initialState = {
-  income: ["salary"],
+  income: ["salary", "others"],
   expense: ["food", "stationery", "home"],
 };
 

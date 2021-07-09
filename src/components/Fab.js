@@ -60,11 +60,13 @@ const Styles = StyleSheet.create({
   },
   fabItem: { flexDirection: "row", alignItems: "center", marginRight: 10 },
   fab: {
+    flex: 1,
     position: "absolute",
     right: 0,
     bottom: 0,
     margin: 16,
     alignItems: "flex-end",
+    zIndex: 1,
   },
 });
 

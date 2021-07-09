@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from "react-native";
 import { useIsDrawerOpen } from "@react-navigation/drawer";
 import { useFocusEffect } from "@react-navigation/native";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
@@ -41,14 +47,21 @@ const HomeScreen = (props) => {
   );
 
   return (
-    <View
-      style={{
-        ...Styles.screen,
-        backgroundColor: showItems ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.05)",
-      }}
-    >
+    <View style={Styles.screen}>
       <Text>HomeScreen</Text>
-      {FAB}
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => setShowItems(false)}
+        style={{
+          height: "100%",
+          width: "100%",
+          position: "absolute",
+          zIndex: 100,
+          backgroundColor: showItems ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.05)",
+        }}
+      >
+        {FAB}
+      </TouchableOpacity>
     </View>
   );
 };
