@@ -1,12 +1,8 @@
 import { ADD_CATEGORY } from "../actions/category";
 
 const initialState = {
-  incomeCategories: [],
-  expenseCategories: [
-    { id: 1, name: "food" },
-    { id: 2, name: "petrol" },
-    { id: 3, name: "stationery" },
-  ],
+  income: ["salary"],
+  expense: ["food", "stationery", "home"],
 };
 
 const reducer = (state = initialState, action) => {

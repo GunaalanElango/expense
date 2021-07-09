@@ -18,7 +18,8 @@ import EditExpenseScreen from "../src/screens/EditExpenseScreen";
 import StartupScreen from "../src/screens/StartupScreen";
 import OTPScreen from "../src/screens/auth/OTPScreen";
 import EditIncomeScreen from "../src/screens/EditIncomeScreen";
-import EditCategoryScreen from "../src/screens/EditCategoryScreen";
+import ExpenseCategoryScreen from "../src/screens/category/ExpenseCategoryScreen";
+import IncomeCategoryScreen from "../src/screens/category/IncomeCategoryScreen";
 import Colors from "../colors/colors";
 
 const Stack = createStackNavigator();
@@ -64,15 +65,16 @@ const CategoryTopTabNavigator = () => {
         },
       }}
     >
-      <TopTab.Screen name="IncomeCategory" options={{ tabBarLabel: "Income" }}>
-        {(props) => <EditCategoryScreen type="income" {...props} />}
-      </TopTab.Screen>
+      <TopTab.Screen
+        name="IncomeCategory"
+        component={IncomeCategoryScreen}
+        options={{ tabBarLabel: "Income" }}
+      />
       <TopTab.Screen
         name="ExpenseCategory"
         options={{ tabBarLabel: "Expense" }}
-      >
-        {(props) => <EditCategoryScreen type="expense" {...props} />}
-      </TopTab.Screen>
+        component={ExpenseCategoryScreen}
+      />
     </TopTab.Navigator>
   );
 };

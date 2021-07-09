@@ -11,7 +11,11 @@ const Fab = (props) => {
         <Text style={Styles.labelStyle}>{item.label}</Text>
 
         <TouchableOpacity
-          style={{ ...Styles.fabMainButton, backgroundColor: "white" }}
+          style={{
+            ...Styles.fabMainButton,
+            backgroundColor: "white",
+            padding: 10,
+          }}
           onPress={item.clicked}
         >
           {item.icon}
@@ -45,16 +49,16 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     color: Colors.primary,
     marginRight: 5,
-    padding: 8,
+    padding: 5,
     borderRadius: 3,
   },
   fabMainButton: {
     padding: 20,
-    marginTop: 5,
+    marginTop: 10,
     backgroundColor: Colors.primary,
     borderRadius: 50,
   },
-  fabItem: { flexDirection: "row", alignItems: "center" },
+  fabItem: { flexDirection: "row", alignItems: "center", marginRight: 10 },
   fab: {
     position: "absolute",
     right: 0,

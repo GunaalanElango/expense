@@ -9,12 +9,12 @@ import Colors from "./colors/colors";
 import AppNavigator from "./navigation/AppNavigation";
 import authReducer from "./store/reducers/auth";
 import categoryReducer from "./store/reducers/category";
-import expenseReducer from "./store/reducers/expense";
+import accountReducer from "./store/reducers/account";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   category: categoryReducer,
-  expenses: expenseReducer,
+  account: accountReducer,
 });
 
 const store = createStore(rootReducer);
@@ -25,7 +25,6 @@ const Theme = {
     ...DefaultTheme.colors,
     primary: Colors.primary,
     accent: Colors.secondary,
-    error: "red",
   },
 };
 

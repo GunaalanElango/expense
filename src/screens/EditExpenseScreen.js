@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-native-paper";
-import Picker from "react-native-picker-select";
+import RNPickerSelect from "react-native-picker-select";
 
 import Input from "../components/Input";
 import { formReducer, FORM_INPUT_CHANGE } from "../../store/reducers/form";
@@ -20,7 +20,8 @@ const EditExpenseScreen = (props) => {
   const isEditScreen = props.route.params.edit;
   const title = isEditScreen ? "Update Expense" : "Add Expense";
 
-  const categories = useSelector((state) => state.category.expenseCategories);
+  const categories = useSelector((state) => state.category.expense);
+
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       amount: "",
@@ -32,7 +33,6 @@ const EditExpenseScreen = (props) => {
     formIsValid: false,
   });
   const [category, setCategory] = useState("");
-  const [catId, setCatId] = useState("");
 
   const onValueChangeHandler = useCallback(
     (id, value, isValid) => {
@@ -56,7 +56,7 @@ const EditExpenseScreen = (props) => {
     dispatch(
       addExpense(
         formState.inputValues.amount,
-        catId,
+        category,
         formState.inputValues.description
       )
     );
@@ -66,19 +66,18 @@ const EditExpenseScreen = (props) => {
     <KeyboardAvoidingView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={Styles.screen}>
-          <Picker
+          <RNPickerSelect
             style={{
               inputAndroid: Styles.inputAndroid,
-              inputIOS: Styles.inputIOS,
             }}
             items={categories.map((cat) => {
               return {
-                label: cat.name,
-                value: cat.id,
+                label: cat.replace(/^\w/, (c) => c.toUpperCase()),
+                value: cat,
               };
             })}
             useNativeAndroidPickerStyle={false}
-            onValueChange={(value) => setCatId(value)}
+            onValueChange={(value) => setCategory(value)}
             placeholder={{ label: "Select Category..", value: null }}
           />
           <Input
@@ -127,16 +126,6 @@ const Styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     marginTop: 20,
-  },
-  inputIOS: {
-    fontSize: 14,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: "green",
-    borderRadius: 8,
-    color: "black",
-    paddingRight: 30,
   },
   inputAndroid: {
     fontSize: 14,
