@@ -14,10 +14,9 @@ import * as authActions from "../store/actions/auth";
 
 import HomeScreen from "../src/screens/HomeScreen";
 import AuthScreen from "../src/screens/auth/AuthScreen";
-import EditExpenseScreen from "../src/screens/EditExpenseScreen";
+import EditIncomeExpenseScreen from "../src/screens/account/EditIncomeExpenseScreen";
 import StartupScreen from "../src/screens/StartupScreen";
 import OTPScreen from "../src/screens/auth/OTPScreen";
-import EditIncomeScreen from "../src/screens/EditIncomeScreen";
 import ExpenseCategoryScreen from "../src/screens/category/ExpenseCategoryScreen";
 import IncomeCategoryScreen from "../src/screens/category/IncomeCategoryScreen";
 import Colors from "../colors/colors";
@@ -59,9 +58,16 @@ const CategoryTopTabNavigator = () => {
     <TopTab.Navigator
       swipeEnabled={false}
       tabBarOptions={{
-        activeTintColor: Colors.primary,
+        activeTintColor: "white",
+        inactiveTintColor: "rgba(0,0,0,0.2)",
         indicatorStyle: {
           backgroundColor: Colors.primary,
+        },
+        tabStyle: {
+          backgroundColor: "salmon",
+        },
+        labelStyle: {
+          fontSize: 16,
         },
       }}
     >
@@ -131,6 +137,7 @@ const HomeDrawerNavigator = () => {
         headerShown: true,
         headerStyle: {
           backgroundColor: Colors.primary,
+          elevation: 0,
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
@@ -176,8 +183,10 @@ const MainStackNavigator = () => {
         component={HomeDrawerNavigator}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="EditExpenseScreen" component={EditExpenseScreen} />
-      <Stack.Screen name="EditIncomeScreen" component={EditIncomeScreen} />
+      <Stack.Screen
+        name="EditIncomeExpenseScreen"
+        component={EditIncomeExpenseScreen}
+      />
     </Stack.Navigator>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import Colors from "../../colors/colors";
+import { initCaps } from "../../util/utilities";
 
 const CategoryList = (props) => {
   return (
@@ -9,9 +10,7 @@ const CategoryList = (props) => {
       {props.categoryList.map((category, index) => {
         return (
           <TouchableOpacity style={Styles.listItem} key={index}>
-            <Text style={{ color: "#ffffff", fontSize: 18 }}>
-              {category.replace(/^\w/, (c) => c.toUpperCase())}
-            </Text>
+            <Text style={Styles.listLabel}>{initCaps(category)}</Text>
           </TouchableOpacity>
         );
       })}
@@ -28,7 +27,11 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 15,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.secondary,
+  },
+  listLabel: {
+    color: "#ffffff",
+    fontSize: 18,
   },
 });
 

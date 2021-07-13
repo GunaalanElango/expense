@@ -1,6 +1,8 @@
 import React, { useReducer, useEffect } from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
 
+import { initCaps } from "../../util/utilities";
+
 const INPUT_VALUE_CHANGE = "INPUT_VALUE_CHANGE";
 const INPUT_BLUR = "INPUT_BLUR";
 
@@ -38,20 +40,21 @@ const Input = (props) => {
     let nameRegex = /^[a-zA-Z ]+$/;
     let isValid = true;
     let error = "";
+    let id = initCaps(props.id);
 
     if (props.required && value.trim().length <= 0) {
       isValid = false;
-      error = props.errorText.required;
+      error = `${id} is required`;
     }
 
     if (props.mobileNumber && !mobileNumberRegex.test(value)) {
       isValid = false;
-      error = props.errorText.mobileNumberInvalid;
+      error = `${id} is invalid`;
     }
 
     if (props.name && !nameRegex.test(value)) {
       isValid = false;
-      error = props.errorText.nameInvalid;
+      error = `${id} is invalid`;
     }
 
     dispatch({ type: INPUT_VALUE_CHANGE, value, isValid, error });
@@ -71,10 +74,12 @@ const Input = (props) => {
     <View style={Styles.inputContainer}>
       <View style={{ flexDirection: "row" }}>
         <Text style={Styles.label}>{props.label}</Text>
+
         {props.required ? (
           <Text style={{ color: "red", paddingHorizontal: 5 }}>*</Text>
         ) : null}
       </View>
+
       <TextInput
         style={[
           Styles.input,
@@ -85,6 +90,7 @@ const Input = (props) => {
         onBlur={onBlurHandler}
         {...props}
       />
+
       {!inputState.isValid &&
       inputState.toched &&
       inputState.errorText !== "" ? (
