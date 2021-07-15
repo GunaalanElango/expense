@@ -1,6 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import MainNavigator, { StartupNavigator } from "./MainNavigation";
+import { StartupNavigator, MainNavigator } from "./Stack";
 import { useSelector } from "react-redux";
 
 const AppNavigator = () => {
