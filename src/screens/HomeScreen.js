@@ -19,7 +19,7 @@ const HomeScreen = (props) => {
   const isDrawerOpen = useIsDrawerOpen();
 
   const fabClickHandler = () => {
-    props.navigation.navigate("EditIncomeExpenseScreen", {});
+    props.navigation.navigate("EditStatementScreen", {});
   };
 
   let FAB = isDrawerOpen ? null : <Fab clicked={fabClickHandler} />;
@@ -36,7 +36,7 @@ const HomeScreen = (props) => {
 
       <View style={Styles.listContainer}>
         <Text style={Styles.balanceTitle}>Activities</Text>
-        {account.incomeAndExpenses.length <= 0 ? (
+        {account.statements.length <= 0 ? (
           <Text
             style={{
               ...Styles.balanceTitle,
@@ -49,7 +49,7 @@ const HomeScreen = (props) => {
           </Text>
         ) : (
           <FlatList
-            data={account.incomeAndExpenses}
+            data={account.statements}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => {
@@ -62,7 +62,7 @@ const HomeScreen = (props) => {
                   }
                   activeOpacity={0.8}
                   onPress={() =>
-                    props.navigation.navigate("EditIncomeExpenseScreen", {
+                    props.navigation.navigate("EditStatementScreen", {
                       id: item.id,
                     })
                   }
@@ -72,11 +72,15 @@ const HomeScreen = (props) => {
                       <FontAwesome name="rupee" size={15} color="black" />
                       {item.amount}
                     </Text>
-                    <Text style={Styles.listText}>{item.date}</Text>
+                    <Text style={Styles.listText}>
+                      {new Date(item.date).toDateString()}
+                    </Text>
                   </View>
                   <View style={Styles.listTextContainer}>
                     <Text style={Styles.listText}>{item.category}</Text>
-                    <Text style={Styles.listText}>{item.date}</Text>
+                    <Text style={Styles.listText}>
+                      {new Date(item.date).toDateString()}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               );
@@ -117,13 +121,13 @@ const Styles = StyleSheet.create({
     paddingTop: 15,
   },
   incomeListItem: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.pale,
     padding: 10,
     marginVertical: 8,
     borderRadius: 10,
   },
   expenseListItem: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.pale,
     padding: 10,
     marginVertical: 8,
     borderRadius: 10,

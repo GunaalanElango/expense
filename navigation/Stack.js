@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import AuthScreen from "../src/screens/auth/AuthScreen";
-import EditIncomeExpenseScreen from "../src/screens/account/EditIncomeExpenseScreen";
+import EditStatementScreen from "../src/screens/account/EditStatementScreen";
 import StartupScreen from "../src/screens/StartupScreen";
 import OTPScreen from "../src/screens/auth/OTPScreen";
 import Colors from "../colors/colors";
@@ -47,8 +47,8 @@ const MainNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="EditIncomeExpenseScreen"
-        component={EditIncomeExpenseScreen}
+        name="EditStatementScreen"
+        component={EditStatementScreen}
       />
     </Stack.Navigator>
   );

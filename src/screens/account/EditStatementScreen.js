@@ -18,8 +18,8 @@ const EditIncomeExpenseScreen = (props) => {
   const dispatch = useDispatch();
 
   const editData = useSelector((state) =>
-    state.account.incomeAndExpenses.find(
-      (incExp) => incExp.id == props.route.params.id
+    state.account.statements.find(
+      (statement) => statement.id == props.route.params.id
     )
   );
 
@@ -78,7 +78,7 @@ const EditIncomeExpenseScreen = (props) => {
   const onSubmitHandler = () => {
     if (editData) {
       dispatch(
-        AccountActions.updateIncomeExpense(
+        AccountActions.addStatement(
           editData.id,
           formState.inputValues.amount,
           formState.inputValues.category,
@@ -87,7 +87,7 @@ const EditIncomeExpenseScreen = (props) => {
       );
     } else {
       dispatch(
-        AccountActions.addIncomeExpense(
+        AccountActions.addStatement(
           type,
           formState.inputValues.amount,
           formState.inputValues.category,

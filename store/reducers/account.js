@@ -1,4 +1,4 @@
-import { ADD_INCOME_EXPENSE, UPDATE_INCOME_EXPENSE } from "../actions/account";
+import { ADD_STATEMENT, UPDATE_STATEMENT } from "../actions/account";
 
 const findTotalBalance = (arr) => {
   let incomeArr = arr.filter((incomeExpense) => incomeExpense.type == "income");
@@ -19,25 +19,22 @@ const findTotalBalance = (arr) => {
 };
 
 const initialState = {
-  incomeAndExpenses: [],
+  statements: [],
   totalBalance: 0,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_INCOME_EXPENSE:
-      let updatedIncomeExpense = [
-        ...state.incomeAndExpenses,
-        action.incomeExpense,
-      ];
+    case ADD_STATEMENT:
+      let updatedStatement = [...state.statements, action.statement];
 
       return {
-        totalBalance: findTotalBalance(updatedIncomeExpense),
-        incomeAndExpenses: updatedIncomeExpense,
+        totalBalance: findTotalBalance(updatedStatement),
+        statements: updatedStatement,
       };
 
-    case UPDATE_INCOME_EXPENSE:
-      let updated = [...state.incomeAndExpenses];
+    case UPDATE_STATEMENT:
+      let updated = [...state.statements];
 
       let index = updated.findIndex((inex) => inex.id == action.id);
 
@@ -47,7 +44,7 @@ const reducer = (state = initialState, action) => {
 
       return {
         totalBalance: findTotalBalance(updated),
-        incomeAndExpenses: updated,
+        statements: updated,
       };
     default:
       return state;
