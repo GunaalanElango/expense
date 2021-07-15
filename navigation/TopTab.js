@@ -3,7 +3,6 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 
 import ExpenseCategoryScreen from "../src/screens/category/ExpenseCategoryScreen";
 import IncomeCategoryScreen from "../src/screens/category/IncomeCategoryScreen";
-import Colors from "../colors/colors";
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -14,14 +13,11 @@ const CategoryTopTabNavigator = () => {
       tabBarOptions={{
         activeTintColor: "white",
         inactiveTintColor: "rgba(0,0,0,0.2)",
-        indicatorStyle: {
-          backgroundColor: Colors.primary,
-        },
         tabStyle: {
           backgroundColor: "salmon",
         },
         labelStyle: {
-          fontSize: 16,
+          fontSize: 17,
         },
       }}
     >

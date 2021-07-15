@@ -46,19 +46,21 @@ export const getDateByTimestamp = (timestamp) => {
     date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
   const a = date.getHours() >= 12 ? "PM" : "AM";
 
-  let isToday = false;
-  const todayDate = new Date();
-  if (
-    day == todayDate.getDate() &&
-    month == todayDate.getMonth() &&
-    year == todayDate.getFullYear()
-  ) {
-    isToday = true;
-  }
+  return `${hours}:${minutes} ${a}`;
 
-  if (isToday) {
-    return `Today, ${hours}:${minutes} ${a}`;
-  }
+  // let isToday = false;
+  // const todayDate = new Date();
+  // if (
+  //   day == todayDate.getDate() &&
+  //   month == todayDate.getMonth() &&
+  //   year == todayDate.getFullYear()
+  // ) {
+  //   isToday = true;
+  // }
 
-  return `${day}/${month}/${year}, ${hours}:${minutes} ${a}`;
+  // if (isToday) {
+  //   return `Today, ${hours}:${minutes} ${a}`;
+  // }
+
+  // return `${day}/${month}/${year}, ${hours}:${minutes} ${a}`;
 };

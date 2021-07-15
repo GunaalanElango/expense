@@ -1,9 +1,6 @@
 import { ADD_CATEGORY } from "../actions/category";
 
-const initialState = {
-  income: ["salary", "others"],
-  expense: ["food", "stationery", "home"],
-};
+const initialState = [];
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {

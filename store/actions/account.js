@@ -17,7 +17,7 @@ const addStatement = (type, amount, category, description) => {
 
 const updateStatement = (id, amount, category, description) => {
   return {
-    type: UPDATE_INCOME_EXPENSE,
+    type: UPDATE_STATEMENT,
     id,
     amount,
     category,

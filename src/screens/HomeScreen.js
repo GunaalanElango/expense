@@ -1,17 +1,11 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { useIsDrawerOpen } from "@react-navigation/drawer";
 import { useSelector } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
 
 import Fab from "../components/Fab";
-import Colors from "../../colors/colors";
+import StatementList from "../components/StatementList";
 
 const HomeScreen = (props) => {
   const account = useSelector((state) => state.account);
@@ -22,6 +16,12 @@ const HomeScreen = (props) => {
     props.navigation.navigate("EditStatementScreen", {});
   };
 
+  const onStatementClickHandler = (id) => {
+    props.navigation.navigate("EditStatementScreen", {
+      id,
+    });
+  };
+
   let FAB = isDrawerOpen ? null : <Fab clicked={fabClickHandler} />;
 
   return (
@@ -29,65 +29,30 @@ const HomeScreen = (props) => {
       <View style={Styles.balanceContainer}>
         <Text style={Styles.balanceTitle}>Total Balance</Text>
         <Text style={Styles.balance}>
-          <FontAwesome name="rupee" size={32} color="black" />
+          <FontAwesome name="rupee" size={33} color="black" />
           {account.totalBalance}
         </Text>
       </View>
 
-      <View style={Styles.listContainer}>
-        <Text style={Styles.balanceTitle}>Activities</Text>
-        {account.statements.length <= 0 ? (
-          <Text
-            style={{
-              ...Styles.balanceTitle,
-              textAlign: "center",
-              padding: 10,
-              fontWeight: "normal",
-            }}
-          >
-            No Activities so far
-          </Text>
-        ) : (
+      {account.statements.length <= 0 ? null : (
+        <View style={Styles.listContainer}>
+          <Text style={Styles.balanceTitle}>Activities</Text>
+
           <FlatList
             data={account.statements}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => {
               return (
-                <TouchableOpacity
-                  style={
-                    item.type === "income"
-                      ? Styles.incomeListItem
-                      : Styles.expenseListItem
-                  }
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    props.navigation.navigate("EditStatementScreen", {
-                      id: item.id,
-                    })
-                  }
-                >
-                  <View style={Styles.listTextContainer}>
-                    <Text style={Styles.listText}>
-                      <FontAwesome name="rupee" size={15} color="black" />
-                      {item.amount}
-                    </Text>
-                    <Text style={Styles.listText}>
-                      {new Date(item.date).toDateString()}
-                    </Text>
-                  </View>
-                  <View style={Styles.listTextContainer}>
-                    <Text style={Styles.listText}>{item.category}</Text>
-                    <Text style={Styles.listText}>
-                      {new Date(item.date).toDateString()}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                <StatementList
+                  item={item}
+                  itemClick={onStatementClickHandler}
+                />
               );
             }}
           />
-        )}
-      </View>
+        </View>
+      )}
       {FAB}
     </View>
   );
@@ -96,51 +61,23 @@ const HomeScreen = (props) => {
 const Styles = StyleSheet.create({
   screen: {
     flex: 1,
+    padding: 24,
   },
   balanceContainer: {
     alignItems: "flex-start",
-    paddingTop: 20,
-    paddingHorizontal: 24,
-    borderBottomColor: "rgba(0,0,0,0.4)",
-    borderBottomWidth: 1.5,
   },
   balanceTitle: {
     color: "#000000",
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 25,
   },
   balance: {
     color: "#000000",
     fontSize: 35,
     fontWeight: "bold",
-    paddingVertical: 15,
   },
   listContainer: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 15,
-  },
-  incomeListItem: {
-    backgroundColor: Colors.pale,
-    padding: 10,
-    marginVertical: 8,
-    borderRadius: 10,
-  },
-  expenseListItem: {
-    backgroundColor: Colors.pale,
-    padding: 10,
-    marginVertical: 8,
-    borderRadius: 10,
-  },
-  listTextContainer: {
-    flexDirection: "row",
-    marginVertical: 5,
-    justifyContent: "space-between",
-    padding: 3,
-  },
-  listText: {
-    fontSize: 18,
-    color: "#000",
+    paddingTop: 10,
   },
 });
 

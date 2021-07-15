@@ -78,7 +78,7 @@ const EditIncomeExpenseScreen = (props) => {
   const onSubmitHandler = () => {
     if (editData) {
       dispatch(
-        AccountActions.addStatement(
+        AccountActions.updateStatement(
           editData.id,
           formState.inputValues.amount,
           formState.inputValues.category,

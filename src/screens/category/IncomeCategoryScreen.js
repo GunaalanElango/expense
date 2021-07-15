@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import CategoryList from "../../components/CategoryList";
 
 const IncomeCategoryScreen = (props) => {
-  const categories = useSelector((state) => state.category.income);
+  const categories = useSelector((state) => state.category);
 
   return (
     <View style={Styles.screen}>
